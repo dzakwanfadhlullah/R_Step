@@ -1,0 +1,37 @@
+# R Environment
+.Rhistory
+.Rdata
+.RData
+.Ruserdata
+.Rproj.user/
+
+# renv
+renv/library/
+renv/local/
+renv/staging/
+renv/python/
+renv/sandbox/
+
+# Keep these renv files
+!renv.lock
+!renv/activate.R
+!renv/settings.json
+
+# Model files (large)
+experiments/lstm/models/*.h5
+experiments/lstm/models/*.hdf5
+experiments/h2o_automl/models/*.zip
+experiments/h2o_automl/models/*/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
