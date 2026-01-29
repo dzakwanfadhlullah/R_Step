@@ -1,0 +1,17 @@
+"year","dataset","target","model","actual","predicted"
+2015,"klaim","JP","lstm",35813453239,NA
+2016,"klaim","JP","lstm",161751216426,NA
+2017,"klaim","JP","lstm",375285235058,NA
+2018,"klaim","JP","lstm",223178745477,NA
+2019,"klaim","JP","lstm",356419707459,NA
+2020,"klaim","JP","lstm",844861637824,NA
+2021,"klaim","JP","lstm",1648905482669,NA
+2022,"klaim","JP","lstm",2870698808317,NA
+2023,"klaim","JP","lstm",3.25e+12,NA
+2024,"klaim","JP","lstm",3.6e+12,NA
+2025,"klaim","JP","lstm",4.05e+12,NA
+2026,"klaim","JP","lstm",NA,4335800085864.06
+2027,"klaim","JP","lstm",NA,4653922367532.35
+2028,"klaim","JP","lstm",NA,4950565426743.48
+2029,"klaim","JP","lstm",NA,5194436860651.55
+2030,"klaim","JP","lstm",NA,5417538729610.46

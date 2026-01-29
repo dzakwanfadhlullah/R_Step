@@ -1,0 +1,11 @@
+"year","dataset","target","model","actual","predicted"
+2021,"iuran","JKP","h2o",4.8e+12,NA
+2022,"iuran","JKP","h2o",5.2e+12,NA
+2023,"iuran","JKP","h2o",5.65e+12,NA
+2024,"iuran","JKP","h2o",6.05e+12,NA
+2025,"iuran","JKP","h2o",6.5e+12,NA
+2026,"iuran","JKP","h2o",NA,6499996553163.32
+2027,"iuran","JKP","h2o",NA,6499996553163.32
+2028,"iuran","JKP","h2o",NA,6499996553163.32
+2029,"iuran","JKP","h2o",NA,6499996553163.32
+2030,"iuran","JKP","h2o",NA,6499996553163.32

@@ -1,0 +1,17 @@
+"year","dataset","target","model","actual","predicted"
+2015,"iuran","JHT","h2o",28475404727441,NA
+2016,"iuran","JHT","h2o",32979753948657,NA
+2017,"iuran","JHT","h2o",37322309737259,NA
+2018,"iuran","JHT","h2o",42455110302968,NA
+2019,"iuran","JHT","h2o",47438164542003,NA
+2020,"iuran","JHT","h2o",44136252653559,NA
+2021,"iuran","JHT","h2o",5.009e+13,NA
+2022,"iuran","JHT","h2o",5.43e+13,NA
+2023,"iuran","JHT","h2o",5.89e+13,NA
+2024,"iuran","JHT","h2o",6.32e+13,NA
+2025,"iuran","JHT","h2o",6.8e+13,NA
+2026,"iuran","JHT","h2o",NA,64842997967093.8
+2027,"iuran","JHT","h2o",NA,64842997967093.8
+2028,"iuran","JHT","h2o",NA,64842997967093.8
+2029,"iuran","JHT","h2o",NA,64842997967093.8
+2030,"iuran","JHT","h2o",NA,64842997967093.8

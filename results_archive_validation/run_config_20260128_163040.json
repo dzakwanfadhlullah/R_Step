@@ -1,0 +1,85 @@
+{
+  "run_id": "20260128_163040",
+  "timestamp": "2026-01-28 16:30:40.898948",
+  "timezone": "Asia/Jakarta",
+  "system": {
+    "r_version": "4.5.2",
+    "platform": "x86_64-w64-mingw32/x64",
+    "os": "Windows 11 x64 (build 26100)",
+    "locale": "LC_COLLATE=English_Indonesia.utf8;LC_CTYPE=English_Indonesia.utf8;LC_MONETARY=English_Indonesia.utf8;LC_NUMERIC=C;LC_TIME=English_Indonesia.utf8"
+  },
+  "packages": {
+    "base": {},
+    "attached": ["3.44.0.3", "2.20.0", "1.5.0", "1.3.2", "1.4.0", "4.0.1", "2.0.0"],
+    "loaded": ["0.7.1", "3.6.5", "0.2.0", "1.1.7", "0.1-8", "0.1.4", "0.2.1", "1.8.0", "1.98-1.17", "0.1.0", "2.1.1", "0.3.4", "4.5.2", "1.5.4", "1.0-9", "0.1-3", "1.0.5", "0.4.1", "4.5.2", "0.2-20", "1.1-3", "1.1.1", "1.0.2", "0.18.0", "2.1.2", "0.22-7", "2.6.1", "1.44.1", "2.0.4", "1.7-4", "4.5.2", "3.0.2", "0.3.6"]
+  },
+  "config": {
+    "random_seed": 42,
+    "data_paths": {
+      "raw": "data/raw",
+      "processed": "data/processed",
+      "results": "results"
+    },
+    "target_columns": ["JHT", "JKK", "JKM", "JP", "JKP", "BPJS"],
+    "datasets": ["klaim", "iuran"],
+    "evaluation": {
+      "mode": "rolling",
+      "holdout_years": [2024, 2025],
+      "rolling_initial_window": 5
+    },
+    "models": {
+      "lstm": {
+        "lookback": 3,
+        "units": 16
+      },
+      "h2o": {
+        "max_runtime_secs": 120
+      }
+    },
+    "treatment_rules": {
+      "STRICT_MODE": true,
+      "ALLOW_INTERPOLATION": false,
+      "JKP_MIN_POINTS_WARNING": 5
+    }
+  },
+  "skipped_targets": [
+    {
+      "target": "klaim/JKP",
+      "reason": "Skipped: only 5 points available (min: 6)"
+    },
+    {
+      "target": "iuran/JKP",
+      "reason": "Skipped: only 5 points available (min: 6)"
+    }
+  ],
+  "additional": {
+    "missing_treatment_summary": [
+      {
+        "dataset": "klaim",
+        "target": "JP",
+        "reason_category": "legacy",
+        "chosen_treatment": "exclude_year",
+        "count": 1
+      },
+      {
+        "dataset": "iuran",
+        "target": "JKP",
+        "reason_category": "structural",
+        "chosen_treatment": "exclude_years",
+        "count": 6
+      },
+      {
+        "dataset": "klaim",
+        "target": "JKP",
+        "reason_category": "structural",
+        "chosen_treatment": "exclude_years",
+        "count": 7
+      }
+    ],
+    "model_results": {
+      "success_count": 0,
+      "skip_count": 2,
+      "fail_count": 22
+    }
+  }
+}

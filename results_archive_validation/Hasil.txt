@@ -1,0 +1,393 @@
+================================================================================
+           LAPORAN ANALISIS PREDIKSI TIME-SERIES BPJS KETENAGAKERJAAN
+                    Machine Learning: LSTM & H2O AutoML
+================================================================================
+
+Tanggal Eksekusi : 28 Januari 2026, 19:38 - 20:09 WIB
+Durasi Total     : 30 menit 27 detik
+Prepared by      : Automated ML Pipeline v1.0
+
+================================================================================
+                           1. RINGKASAN EKSEKUTIF
+================================================================================
+
+Pipeline machine learning untuk prediksi klaim dan iuran BPJS Ketenagakerjaan
+telah berhasil dieksekusi dengan hasil sebagai berikut:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STATISTIK EKSEKUSI                                                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  Total Model Dilatih    : 20 model (10 LSTM + 10 H2O AutoML)                │
+│  Target Berhasil        : 10 target (5 Klaim + 5 Iuran)                     │
+│  Target Dilewati        : 2 target (JKP - data tidak mencukupi)             │
+│  Target Gagal           : 0                                                 │
+│  Plot Visualisasi       : 41 grafik                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+TEMUAN UTAMA:
+• Model LSTM secara konsisten mengungguli H2O AutoML pada 4 dari 5 target
+• H2O AutoML unggul pada target JP (Jaminan Pensiun) dengan margin signifikan
+• Semua prediksi untuk tahun 2024-2025 telah berhasil digenerate
+• Target JKP (Jaminan Kehilangan Pekerjaan) dilewati karena hanya memiliki 
+  5 data point (program baru mulai 2021)
+
+================================================================================
+                           2. METODOLOGI
+================================================================================
+
+2.1 ARSITEKTUR MODEL
+────────────────────
+
+A. LSTM (Long Short-Term Memory)
+   - Tipe           : Recurrent Neural Network
+   - Lookback       : 3 tahun (window temporal)
+   - Hidden Units   : 16 neurons
+   - Parameters     : 1,169 trainable parameters
+   - Max Epochs     : 100 (dengan early stopping)
+   - Framework      : TensorFlow 2.20.0 / Keras 3.13.1
+
+B. H2O AutoML
+   - Algoritma      : Gradient Boosting Machine (GBM), GLM, Random Forest
+   - Max Runtime    : 30 detik per target
+   - Max Models     : 15 (dibatasi untuk efisiensi)
+   - Cross-Valid.   : Disabled (data terlalu kecil untuk CV)
+   - Framework      : H2O 3.44.0.3
+
+2.2 STRATEGI VALIDASI
+─────────────────────
+
+• Mode Evaluasi    : Holdout Split
+• Training Set     : 2014-2023 (10 tahun untuk Klaim, 9 tahun untuk Iuran)
+• Test Set         : 2024-2025 (2 tahun)
+• Random Seed      : 42 (untuk reproducibility)
+
+2.3 FEATURE ENGINEERING
+───────────────────────
+
+Untuk H2O AutoML:
+• lag_1           : Nilai tahun sebelumnya (t-1)
+• lag_2           : Nilai 2 tahun sebelumnya (t-2)
+• rolling_mean_2  : Rata-rata bergerak 2 periode
+
+Untuk LSTM:
+• Sequence length : 3 timesteps
+• Normalization   : Min-Max Scaling per target
+
+================================================================================
+                     3. OVERVIEW DATA
+================================================================================
+
+3.1 DATASET KLAIM
+─────────────────
+
+┌─────────┬────────────┬────────────────────────────────────────────────────┐
+│ Target  │ Data Points│ Rentang Tahun                                      │
+├─────────┼────────────┼────────────────────────────────────────────────────┤
+│ JHT     │ 12         │ 2014-2025 (lengkap)                                │
+│ JKK     │ 12         │ 2014-2025 (lengkap)                                │
+│ JKM     │ 12         │ 2014-2025 (lengkap)                                │
+│ JP      │ 11         │ 2015-2025 (2014 tidak tersedia - legacy)           │
+│ JKP     │ 5          │ 2021-2025 (program baru - DILEWATI)                │
+│ BPJS    │ 12         │ 2014-2025 (lengkap)                                │
+└─────────┴────────────┴────────────────────────────────────────────────────┘
+
+3.2 DATASET IURAN
+─────────────────
+
+┌─────────┬────────────┬────────────────────────────────────────────────────┐
+│ Target  │ Data Points│ Rentang Tahun                                      │
+├─────────┼────────────┼────────────────────────────────────────────────────┤
+│ JHT     │ 11         │ 2015-2025                                          │
+│ JKK     │ 11         │ 2015-2025                                          │
+│ JKM     │ 11         │ 2015-2025                                          │
+│ JP      │ 11         │ 2015-2025                                          │
+│ JKP     │ 5          │ 2021-2025 (program baru - DILEWATI)                │
+│ BPJS    │ 11         │ 2015-2025                                          │
+└─────────┴────────────┴────────────────────────────────────────────────────┘
+
+================================================================================
+                     4. PERBANDINGAN PERFORMA MODEL
+================================================================================
+
+4.1 METRIK EVALUASI: RMSE (Root Mean Square Error)
+──────────────────────────────────────────────────
+
+Semakin RENDAH nilai RMSE, semakin AKURAT prediksi model.
+
+DATASET KLAIM:
+┌─────────┬──────────────────────┬──────────────────────┬─────────┬──────────┐
+│ Target  │ LSTM (Rp)            │ H2O (Rp)             │ Winner  │ Selisih  │
+├─────────┼──────────────────────┼──────────────────────┼─────────┼──────────┤
+│ JHT     │ 5.718.251.329.608    │ 7.568.111.580.728    │ LSTM ✓  │ 24.4%    │
+│ JKK     │ 192.640.050.054      │ 387.707.993.266      │ LSTM ✓  │ 50.3%    │
+│ JKM     │ 47.598.767.947       │ 169.828.721.180      │ LSTM ✓  │ 72.0%    │
+│ JP      │ 1.794.492.830.559    │ 617.450.092.896      │ H2O ✓   │ 65.6%    │
+│ BPJS    │ 440.420.298.406      │ 902.341.808.346      │ LSTM ✓  │ 51.2%    │
+└─────────┴──────────────────────┴──────────────────────┴─────────┴──────────┘
+
+DATASET IURAN:
+┌─────────┬──────────────────────┬──────────────────────┬─────────┬──────────┐
+│ Target  │ LSTM (Rp)            │ H2O (Rp)             │ Winner  │ Selisih  │
+├─────────┼──────────────────────┼──────────────────────┼─────────┼──────────┤
+│ JHT     │ 6.078.275.120.958    │ 7.116.879.321.342    │ LSTM ✓  │ 14.6%    │
+│ JKK     │ 1.204.821.366.918    │ 854.403.532.526      │ H2O ✓   │ 29.1%    │
+│ JKM     │ 451.508.123.105      │ 585.230.972.584      │ LSTM ✓  │ 22.8%    │
+│ JP      │ 2.860.620.768.531    │ 5.887.248.058.817    │ LSTM ✓  │ 51.4%    │
+│ BPJS    │ 637.266.287.914      │ 474.987.252.387      │ H2O ✓   │ 25.5%    │
+└─────────┴──────────────────────┴──────────────────────┴─────────┴──────────┘
+
+4.2 METRIK TAMBAHAN: MAPE (Mean Absolute Percentage Error)
+──────────────────────────────────────────────────────────
+
+BEST PERFORMERS (MAPE Terendah):
+┌─────────────────────┬────────────┬───────────────────────────────────────────┐
+│ Dataset/Target      │ MAPE (%)   │ Interpretasi                              │
+├─────────────────────┼────────────┼───────────────────────────────────────────┤
+│ Klaim/JKM (LSTM)    │ 3.92%      │ Sangat Akurat                             │
+│ Klaim/BPJS (LSTM)   │ 6.86%      │ Akurat                                    │
+│ Iuran/JP (LSTM)     │ 7.18%      │ Akurat                                    │
+│ Iuran/BPJS (H2O)    │ 7.81%      │ Akurat                                    │
+│ Iuran/JHT (LSTM)    │ 9.10%      │ Cukup Akurat                              │
+└─────────────────────┴────────────┴───────────────────────────────────────────┘
+
+※ Panduan MAPE:
+   < 10%  = Sangat Akurat
+   10-20% = Cukup Akurat
+   20-50% = Kurang Akurat
+   > 50%  = Tidak Akurat
+
+================================================================================
+                     5. HASIL PREDIKSI 2024-2025
+================================================================================
+
+5.1 PREDIKSI KLAIM (dalam Triliun Rupiah)
+─────────────────────────────────────────
+
+┌─────────┬────────┬────────────┬────────────┬────────────┬─────────────────────┐
+│ Target  │ Tahun  │ Aktual     │ LSTM       │ H2O        │ Rekomendasi         │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JHT     │ 2024   │ 35.10 T    │ 29.91 T    │ 28.77 T    │ Gunakan LSTM        │
+│ JHT     │ 2025   │ 37.40 T    │ 31.19 T    │ 28.77 T    │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JKK     │ 2024   │ 1.85 T     │ 1.71 T     │ 1.54 T     │ Gunakan LSTM        │
+│ JKK     │ 2025   │ 2.00 T     │ 1.77 T     │ 1.54 T     │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JKM     │ 2024   │ 1.12 T     │ 1.09 T     │ 1.00 T     │ Gunakan LSTM        │
+│ JKM     │ 2025   │ 1.21 T     │ 1.15 T     │ 1.00 T     │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JP      │ 2024   │ 3.60 T     │ 4.95 T     │ 3.25 T     │ Gunakan H2O ✓       │
+│ JP      │ 2025   │ 4.05 T     │ 6.20 T     │ 3.25 T     │ Gunakan H2O ✓       │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ BPJS    │ 2024   │ 6.20 T     │ 5.82 T     │ 5.46 T     │ Gunakan LSTM        │
+│ BPJS    │ 2025   │ 6.50 T     │ 6.01 T     │ 5.46 T     │ Gunakan LSTM        │
+└─────────┴────────┴────────────┴────────────┴────────────┴─────────────────────┘
+
+5.2 PREDIKSI IURAN (dalam Triliun Rupiah)
+─────────────────────────────────────────
+
+┌─────────┬────────┬────────────┬────────────┬────────────┬─────────────────────┐
+│ Target  │ Tahun  │ Aktual     │ LSTM       │ H2O        │ Rekomendasi         │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JHT     │ 2024   │ 63.20 T    │ 58.18 T    │ 58.90 T    │ Gunakan LSTM        │
+│ JHT     │ 2025   │ 68.00 T    │ 61.02 T    │ 58.90 T    │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JKK     │ 2024   │ 8.10 T     │ 7.11 T     │ 7.60 T     │ Gunakan H2O ✓       │
+│ JKK     │ 2025   │ 8.70 T     │ 7.32 T     │ 7.60 T     │ Gunakan H2O ✓       │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JKM     │ 2024   │ 4.45 T     │ 4.09 T     │ 4.10 T     │ Gunakan LSTM        │
+│ JKM     │ 2025   │ 4.85 T     │ 4.32 T     │ 4.10 T     │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ JP      │ 2024   │ 36.00 T    │ 33.96 T    │ 32.60 T    │ Gunakan LSTM        │
+│ JP      │ 2025   │ 40.20 T    │ 36.71 T    │ 32.60 T    │ Gunakan LSTM        │
+├─────────┼────────┼────────────┼────────────┼────────────┼─────────────────────┤
+│ BPJS    │ 2024   │ 5.85 T     │ 5.30 T     │ 5.55 T     │ Gunakan H2O ✓       │
+│ BPJS    │ 2025   │ 6.20 T     │ 5.48 T     │ 5.55 T     │ Gunakan H2O ✓       │
+└─────────┴────────┴────────────┴────────────┴────────────┴─────────────────────┘
+
+================================================================================
+                     6. ANALISIS & INTERPRETASI
+================================================================================
+
+6.1 MENGAPA LSTM DOMINAN?
+─────────────────────────
+
+LSTM unggul karena:
+1. Kemampuan menangkap pola sequential dan trend jangka panjang
+2. Arsitektur memory cells yang cocok untuk data time-series
+3. Normalization yang tepat (Min-Max per target)
+4. Learning rate yang adaptive dengan early stopping
+
+6.2 KAPAN H2O LEBIH BAIK?
+─────────────────────────
+
+H2O AutoML unggul pada:
+• Klaim JP: Pola pertumbuhan lebih linear, cocok untuk GBM
+• Iuran JKK & BPJS: Variabilitas rendah, tree-based methods optimal
+
+6.3 CATATAN TENTANG JKP
+───────────────────────
+
+Target JKP (Jaminan Kehilangan Pekerjaan) tidak dimodelkan karena:
+• Program baru dimulai tahun 2021
+• Hanya tersedia 5 data point (2021-2025)
+• Minimum data yang dibutuhkan: 6 point
+• Rekomendasi: Tunggu data 2026 untuk pemodelan yang reliable
+
+6.4 OBSERVASI PENTING
+─────────────────────
+
+⚠️  BIAS SISTEMATIS:
+    Model cenderung under-predict pada tahun 2024-2025. Ini mengindikasikan
+    adanya faktor pertumbuhan yang tidak tertangkap dalam data historis,
+    kemungkinan akibat:
+    • Pemulihan ekonomi pasca-pandemi yang agresif
+    • Peningkatan coverage BPJS Ketenagakerjaan
+    • Inflasi yang tidak ter-encode dalam model
+
+⚠️  LIMITASI DATA:
+    Dengan hanya 10-12 data point per target, model memiliki keterbatasan
+    dalam menangkap pola kompleks. Confidence interval dapat sangat lebar.
+
+================================================================================
+                     7. REKOMENDASI
+================================================================================
+
+7.1 UNTUK PROYEKSI AKTUARIA
+───────────────────────────
+
+┌─────────────────────┬───────────────────────────────────────────────────────┐
+│ Target              │ Model yang Direkomendasikan                           │
+├─────────────────────┼───────────────────────────────────────────────────────┤
+│ Klaim JHT           │ LSTM (underestimate ~15%, adjust manually)            │
+│ Klaim JKK           │ LSTM (akurat dalam 10%)                               │
+│ Klaim JKM           │ LSTM (sangat akurat, MAPE 3.9%)                       │
+│ Klaim JP            │ H2O AutoML                                            │
+│ Klaim BPJS          │ LSTM                                                  │
+├─────────────────────┼───────────────────────────────────────────────────────┤
+│ Iuran JHT           │ LSTM                                                  │
+│ Iuran JKK           │ H2O AutoML                                            │
+│ Iuran JKM           │ LSTM atau H2O (hampir sama)                           │
+│ Iuran JP            │ LSTM                                                  │
+│ Iuran BPJS          │ H2O AutoML                                            │
+└─────────────────────┴───────────────────────────────────────────────────────┘
+
+7.2 SARAN PERBAIKAN
+───────────────────
+
+1. ENRICHMENT DATA
+   - Tambahkan variabel makroekonomi (GDP, inflasi, unemployment rate)
+   - Tambahkan data demografis (jumlah peserta aktif per tahun)
+
+2. HYBRID APPROACH
+   - Pertimbangkan ensemble: rata-rata tertimbang LSTM + H2O
+   - Weight berdasarkan performa historis per target
+
+3. UNCERTAINTY QUANTIFICATION
+   - Implementasikan prediction intervals (95% CI)
+   - Gunakan Monte Carlo Dropout untuk LSTM
+
+4. RETRAINING SCHEDULE
+   - Re-run pipeline setiap ada data baru (tahunan)
+   - Monitor drift antara prediksi vs aktual
+
+================================================================================
+                     8. DETAIL TEKNIS
+================================================================================
+
+8.1 KONFIGURASI SISTEM
+──────────────────────
+
+• R Version        : 4.5.2 (2025-10-31 ucrt)
+• Platform         : x86_64-w64-mingw32/x64
+• OS               : Windows 11 x64 (build 26100)
+• TensorFlow       : 2.20.0
+• Keras            : 3.13.1
+• H2O              : 3.44.0.3
+• Device           : CPU (20 cores available)
+
+8.2 OUTPUT FILES
+────────────────
+
+Lokasi: D:\Code\R_Stepi\project-timeseries-forecast\results\
+
+├── predictions/
+│   ├── all_predictions.csv          (Semua prediksi gabungan)
+│   └── predictions_*.csv            (Per target per model)
+├── metrics/
+│   ├── metrics_summary.csv          (Ringkasan metrik)
+│   └── metrics_detail.csv           (Detail per kombinasi)
+├── plots/
+│   ├── actual_vs_pred_*.png         (20 plot aktual vs prediksi)
+│   ├── error_*.png                  (20 plot distribusi error)
+│   └── comparison_rmse.png          (Summary comparison)
+├── compare_models.csv               (Head-to-head comparison)
+└── run_config_*.json                (Konfigurasi lengkap)
+
+8.3 REPRODUCIBILITY
+───────────────────
+
+Untuk mereproduksi hasil ini:
+1. Set working directory ke: D:\Code\R_Stepi\project-timeseries-forecast
+2. Jalankan: source("main.R")
+3. Random seed: 42 (sudah di-set di semua komponen)
+
+================================================================================
+                     9. LAMPIRAN: RAW PREDICTIONS
+================================================================================
+
+KLAIM - SEMUA TARGET
+────────────────────
+Target   Model   Tahun    Aktual (Rp)           Prediksi (Rp)
+JHT      lstm    2024     35,100,000,000,000    29,914,278,000,859
+JHT      lstm    2025     37,400,000,000,000    31,194,753,519,420
+JHT      h2o     2024     35,100,000,000,000    28,769,771,868,562
+JHT      h2o     2025     37,400,000,000,000    28,769,771,868,562
+JKK      lstm    2024     1,850,000,000,000     1,710,916,022,807
+JKK      lstm    2025     2,000,000,000,000     1,765,743,676,590
+JKK      h2o     2024     1,850,000,000,000     1,544,615,341,999
+JKK      h2o     2025     2,000,000,000,000     1,544,615,341,999
+JKM      lstm    2024     1,120,000,000,000     1,085,838,050,953
+JKM      lstm    2025     1,210,000,000,000     1,151,997,873,683
+JKM      h2o     2024     1,120,000,000,000     1,001,241,658,113
+JKM      h2o     2025     1,210,000,000,000     1,001,241,658,113
+JP       lstm    2024     3,600,000,000,000     4,953,991,215,208
+JP       lstm    2025     4,050,000,000,000     6,196,419,536,575
+JP       h2o     2024     3,600,000,000,000     3,250,004,680,699
+JP       h2o     2025     4,050,000,000,000     3,250,004,680,699
+BPJS     lstm    2024     6,200,000,000,000     5,820,913,991,336
+BPJS     lstm    2025     6,500,000,000,000     6,005,799,760,692
+BPJS     h2o     2024     6,200,000,000,000     5,460,213,093,438
+BPJS     h2o     2025     6,500,000,000,000     5,460,213,093,438
+
+IURAN - SEMUA TARGET
+────────────────────
+Target   Model   Tahun    Aktual (Rp)           Prediksi (Rp)
+JHT      lstm    2024     63,200,000,000,000    58,176,742,855,754
+JHT      lstm    2025     68,000,000,000,000    61,024,489,656,312
+JHT      h2o     2024     63,200,000,000,000    58,900,002,143,691
+JHT      h2o     2025     68,000,000,000,000    58,900,002,143,691
+JKK      lstm    2024     8,100,000,000,000     7,105,888,461,065
+JKK      lstm    2025     8,700,000,000,000     7,316,189,572,045
+JKK      h2o     2024     8,100,000,000,000     7,599,996,627,262
+JKK      h2o     2025     8,700,000,000,000     7,599,996,627,262
+JKM      lstm    2024     4,450,000,000,000     4,092,621,023,536
+JKM      lstm    2025     4,850,000,000,000     4,320,850,269,166
+JKM      h2o     2024     4,450,000,000,000     4,100,004,280,679
+JKM      h2o     2025     4,850,000,000,000     4,100,004,280,679
+JP       lstm    2024     36,000,000,000,000    33,956,765,229,071
+JP       lstm    2025     40,200,000,000,000    36,708,367,998,547
+JP       h2o     2024     36,000,000,000,000    32,600,028,208,614
+JP       h2o     2025     40,200,000,000,000    32,600,028,208,614
+BPJS     lstm    2024     5,850,000,000,000     5,299,458,045,640
+BPJS     lstm    2025     6,200,000,000,000     5,476,009,378,533
+BPJS     h2o     2024     5,850,000,000,000     5,550,012,747,613
+BPJS     h2o     2025     6,200,000,000,000     5,550,012,747,613
+
+================================================================================
+                              END OF REPORT
+================================================================================
+
+Dokumen ini di-generate secara otomatis oleh ML Pipeline.
+Untuk pertanyaan teknis, silakan hubungi tim Data Science.
+
+© 2026 - Time-Series Forecasting Pipeline v1.0

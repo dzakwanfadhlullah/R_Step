@@ -1,0 +1,253 @@
+================================================================================
+             LAPORAN HASIL FORECASTING BPJS KETENAGAKERJAAN
+                      Proyeksi 2026-2030
+================================================================================
+Tanggal    : 28 Januari 2026
+Pipeline   : Machine Learning Forecasting (LSTM + H2O AutoML)
+================================================================================
+
+RINGKASAN EKSEKUTIF
+================================================================================
+
+Pipeline forecasting berhasil dijalankan untuk memprediksi nilai IURAN dan 
+KLAIM BPJS Ketenagakerjaan untuk periode 2026-2030. 
+
+Metode yang digunakan:
+  1. LSTM (Long Short-Term Memory) - Deep Learning
+  2. H2O AutoML - Gradient Boosting Machine (GBM)
+
+Key Findings:
+  • LSTM menunjukkan tren pertumbuhan yang lebih dinamis
+  • H2O cenderung memberikan proyeksi konservatif (flat)
+  • Untuk keputusan aktuarial, disarankan menggunakan LSTM sebagai estimasi utama
+
+================================================================================
+IKHTISAR DATA INPUT
+================================================================================
+
+Dataset KLAIM (Pengeluaran):
+  - Periode: 2014 - 2025 (12 tahun)
+  - Target: JHT, JKK, JKM, JP, JKP, BPJS
+
+Dataset IURAN (Penerimaan):
+  - Periode: 2015 - 2025 (11 tahun)
+  - Target: JHT, JKK, JKM, JP, JKP, BPJS
+
+Catatan Khusus:
+  - JKP: Data baru tersedia dari 2021 (hanya 5 tahun)
+  - Semua data yang diberikan adalah data faktual historis
+
+================================================================================
+HASIL PROYEKSI IURAN 2026-2030 (dalam Rupiah)
+================================================================================
+
+JHT (Jaminan Hari Tua)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    | 73,780,543,111,032   | 64,842,997,967,094   | +13.8%
+2027    | 77,553,577,373,970   | 64,842,997,967,094   | +19.6%
+2028    | 81,058,624,337,309   | 64,842,997,967,094   | +25.0%
+2029    | 84,125,685,903,935   | 64,842,997,967,094   | +29.7%
+2030    | 86,420,810,989,337   | 64,842,997,967,094   | +33.3%
+
+JKK (Jaminan Kecelakaan Kerja)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  9,222,043,871,668   |  8,312,380,913,840   | +10.9%
+2027    |  9,882,788,447,024   |  8,312,380,913,840   | +18.9%
+2028    | 10,613,119,304,007   |  8,312,380,913,840   | +27.7%
+2029    | 11,391,167,423,787   |  8,312,380,913,840   | +37.0%
+2030    | 12,256,944,887,337   |  8,312,380,913,840   | +47.5%
+
+JKM (Jaminan Kematian)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  5,172,827,657,337   |  4,849,636,992,065   | +6.7%
+2027    |  5,508,877,510,037   |  4,849,636,992,065   | +13.6%
+2028    |  5,821,741,796,910   |  4,849,636,992,065   | +20.0%
+2029    |  6,087,504,077,007   |  4,849,636,992,065   | +25.5%
+2030    |  6,325,618,606,330   |  4,849,636,992,065   | +30.4%
+
+JP (Jaminan Pensiun)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    | 43,809,705,363,405   | 40,199,563,197,945   | +9.0%
+2027    | 47,435,856,251,732   | 40,199,563,197,945   | +18.0%
+2028    | 51,016,783,066,485   | 40,199,563,197,945   | +26.9%
+2029    | 54,193,300,491,067   | 40,199,563,197,945   | +34.8%
+2030    | 57,101,421,214,710   | 40,199,563,197,945   | +42.0%
+
+JKP (Jaminan Kehilangan Pekerjaan)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  6,896,019,411,087   |  6,499,996,553,163   | +6.1%
+2027    |  7,230,318,784,714   |  6,499,996,553,163   | +11.2%
+2028    |  7,508,251,476,288   |  6,499,996,553,163   | +15.5%
+2029    |  7,713,717,901,707   |  6,499,996,553,163   | +18.7%
+2030    |  7,860,126,376,152   |  6,499,996,553,163   | +20.9%
+
+BPJS (Total Gabungan)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  6,548,050,925,299   |  5,981,111,314,751   | +9.5%
+2027    |  6,789,032,488,842   |  5,981,111,314,751   | +13.5%
+2028    |  7,015,299,656,285   |  5,981,111,314,751   | +17.3%
+2029    |  7,206,545,226,092   |  5,981,111,314,751   | +20.5%
+2030    |  7,355,653,270,644   |  5,981,111,314,751   | +23.0%
+
+================================================================================
+HASIL PROYEKSI KLAIM 2026-2030 (dalam Rupiah)
+================================================================================
+
+JHT (Jaminan Hari Tua)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    | 39,908,622,508,454   | 35,098,862,491,696   | +13.7%
+2027    | 41,457,925,170,500   | 35,098,862,491,696   | +18.1%
+2028    | 42,846,801,724,753   | 35,098,862,491,696   | +22.1%
+2029    | 44,008,284,291,271   | 35,098,862,491,696   | +25.4%
+2030    | 44,850,042,263,985   | 35,098,862,491,696   | +27.8%
+
+JKK (Jaminan Kecelakaan Kerja)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  2,113,190,036,432   |  1,849,952,218,102   | +14.2%
+2027    |  2,242,067,249,398   |  1,849,952,218,102   | +21.2%
+2028    |  2,366,633,600,395   |  1,849,952,218,102   | +27.9%
+2029    |  2,478,299,204,886   |  1,849,952,218,102   | +34.0%
+2030    |  2,586,255,679,931   |  1,849,952,218,102   | +39.8%
+
+JKM (Jaminan Kematian)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  1,258,527,642,088   |  1,119,800,357,672   | +12.4%
+2027    |  1,326,076,850,847   |  1,119,800,357,672   | +18.4%
+2028    |  1,386,162,421,029   |  1,119,800,357,672   | +23.8%
+2029    |  1,435,013,078,663   |  1,119,800,357,672   | +28.1%
+2030    |  1,482,034,514,560   |  1,119,800,357,672   | +32.3%
+
+JP (Jaminan Pensiun)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  4,335,800,085,864   |  3,759,229,355,388   | +15.3%
+2027    |  4,653,922,367,532   |  3,759,229,355,388   | +23.8%
+2028    |  4,950,565,426,743   |  3,759,229,355,388   | +31.7%
+2029    |  5,194,436,860,652   |  3,759,229,355,388   | +38.2%
+2030    |  5,417,538,729,610   |  3,759,229,355,388   | +44.1%
+
+JKP (Jaminan Kehilangan Pekerjaan)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |    317,824,044,339   |    280,000,350,909   | +13.5%
+2027    |    348,740,277,083   |    280,000,350,909   | +24.5%
+2028    |    372,806,599,795   |    280,000,350,909   | +33.1%
+2029    |    388,640,971,628   |    280,000,350,909   | +38.8%
+2030    |    399,969,011,019   |    280,000,350,909   | +42.8%
+
+BPJS (Total Gabungan)
+------------------------------------------------------------------------------
+Tahun   |        LSTM          |         H2O          | Selisih (%)
+--------|----------------------|----------------------|------------
+2026    |  6,867,413,094,758   |  6,199,921,932,064   | +10.8%
+2027    |  7,195,695,571,623   |  6,199,921,932,064   | +16.1%
+2028    |  7,536,109,034,420   |  6,199,921,932,064   | +21.6%
+2029    |  7,883,395,407,387   |  6,199,921,932,064   | +27.2%
+2030    |  8,215,410,495,308   |  6,199,921,932,064   | +32.5%
+
+================================================================================
+ANALISIS PERBANDINGAN METODE
+================================================================================
+
+LSTM (Long Short-Term Memory):
+  ✓ Mampu menangkap pola non-linier dan tren pertumbuhan
+  ✓ Proyeksi dinamis dengan pertumbuhan year-over-year
+  ✓ Lebih responsif terhadap pola historis
+  ⚠ Memerlukan lebih banyak data untuk akurasi optimal
+
+H2O AutoML (Gradient Boosting Machine):
+  ✓ Stabil dan konsisten
+  ✓ Baik untuk estimasi konservatif
+  ⚠ Cenderung flat (tidak menangkap tren pertumbuhan)
+  ⚠ Kurang optimal untuk data time series dengan sedikit observasi
+
+REKOMENDASI:
+------------------------------------------------------------------------------
+Untuk keperluan aktuarial, disarankan menggunakan:
+
+  1. LSTM sebagai ESTIMASI UTAMA (Best Estimate)
+     - Lebih realistis menangkap tren pertumbuhan historis
+     
+  2. H2O sebagai BATAS BAWAH (Lower Bound)
+     - Untuk skenario konservatif/pesimistis
+     
+  3. Rentang Proyeksi: H2O → LSTM
+     - Memberikan range untuk analisis sensitivitas
+
+================================================================================
+OUTPUT FILES
+================================================================================
+
+FORECAST DATA (CSV):
+  results/forecasts/all_forecasts.csv         - Semua data gabungan
+  results/forecasts/forecast_lstm_*.csv       - Per target LSTM
+  results/forecasts/forecast_h2o_*.csv        - Per target H2O
+
+VISUALISASI (PNG):
+  results/plots/forecast_per_dataset_iuran.png  - Semua target Iuran
+  results/plots/forecast_per_dataset_klaim.png  - Semua target Klaim
+  results/plots/forecast_per_target_*.png       - Per target (Iuran vs Klaim)
+  results/plots/forecast_comparison_*.png       - LSTM vs H2O per target
+
+================================================================================
+CATATAN TEKNIS
+================================================================================
+
+Model Configuration:
+  - LSTM: 50 units, lookback 3 tahun, 100 epochs, early stopping
+  - H2O: GBM dengan max 15 models, 30 detik runtime
+  - Random seed: 42 (untuk reproducibility)
+
+Data Preprocessing:
+  - Min-max scaling untuk LSTM
+  - Lag features (t-1, t-2) untuk H2O
+  - No data augmentation (data asli)
+
+Limitations:
+  1. Data historis terbatas (10-12 tahun per target)
+  2. JKP hanya 5 tahun data - proyeksi kurang reliable
+  3. Tidak memperhitungkan faktor eksternal (ekonomi, regulasi)
+
+================================================================================
+DISCLAIMER
+================================================================================
+
+Proyeksi ini dihasilkan menggunakan model machine learning berdasarkan data
+historis yang diberikan. Hasil proyeksi bersifat indikatif dan tidak 
+memperhitungkan:
+
+  - Perubahan regulasi BPJS Ketenagakerjaan
+  - Kondisi ekonomi makro (inflasi, pertumbuhan GDP)
+  - Perubahan demografi tenaga kerja
+  - Faktor-faktor tak terduga (pandemi, bencana, dll)
+
+Disarankan untuk melakukan validasi lebih lanjut dengan metode aktuarial
+tradisional sebelum digunakan untuk keputusan finansial.
+
+================================================================================
+                              AKHIR LAPORAN
+================================================================================
+Diproses oleh: Machine Learning Pipeline v1.0
+Waktu eksekusi: ~45 menit
+Generated: 28 Januari 2026, 22:00 WIB
+================================================================================

@@ -1,0 +1,17 @@
+"year","dataset","target","model","actual","predicted"
+2015,"iuran","JKM","lstm",1590550301075,NA
+2016,"iuran","JKM","lstm",1829140240579,NA
+2017,"iuran","JKM","lstm",2121361037501,NA
+2018,"iuran","JKM","lstm",2495533248010,NA
+2019,"iuran","JKM","lstm",2814030175323,NA
+2020,"iuran","JKM","lstm",3016220932448,NA
+2021,"iuran","JKM","lstm",3.45e+12,NA
+2022,"iuran","JKM","lstm",3.75e+12,NA
+2023,"iuran","JKM","lstm",4.1e+12,NA
+2024,"iuran","JKM","lstm",4.45e+12,NA
+2025,"iuran","JKM","lstm",4.85e+12,NA
+2026,"iuran","JKM","lstm",NA,5172827657336.65
+2027,"iuran","JKM","lstm",NA,5508877510036.9
+2028,"iuran","JKM","lstm",NA,5821741796909.72
+2029,"iuran","JKM","lstm",NA,6087504077007.06
+2030,"iuran","JKM","lstm",NA,6325618606330.14

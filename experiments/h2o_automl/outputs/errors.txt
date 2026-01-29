@@ -1,0 +1,10 @@
+[2026-01-28 16:29:57.527259] klaim/JHT: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:01.762118] klaim/JKK: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:07.908697] klaim/JKM: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:13.916577] klaim/JP: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:18.403796] klaim/BPJS: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:22.626942] iuran/JHT: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:27.168081] iuran/JKK: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:32.230313] iuran/JKM: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:36.525338] iuran/JP: H2O failed: $ operator is invalid for atomic vectors
+[2026-01-28 16:30:40.888104] iuran/BPJS: H2O failed: $ operator is invalid for atomic vectors

@@ -1,0 +1,15 @@
+{
+  "run_id": "20260128_215929",
+  "timestamp": "2026-01-28 21:59:29.280981",
+  "mode": "forecasting",
+  "forecast_years": [2026, 2027, 2028, 2029, 2030],
+  "system": {
+    "r_version": "R version 4.5.2 (2025-10-31 ucrt)",
+    "platform": "x86_64-w64-mingw32",
+    "os": "Windows"
+  },
+  "results": {
+    "success_count": 24,
+    "skip_count": 0
+  }
+}

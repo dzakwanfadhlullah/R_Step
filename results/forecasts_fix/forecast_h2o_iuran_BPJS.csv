@@ -1,0 +1,17 @@
+"year","dataset","target","model","actual","predicted"
+2015,"iuran","BPJS","h2o",3140403518972,NA
+2016,"iuran","BPJS","h2o",4680064727673,NA
+2017,"iuran","BPJS","h2o",4.755082e+12,NA
+2018,"iuran","BPJS","h2o",4608412560228,NA
+2019,"iuran","BPJS","h2o",4701083243362,NA
+2020,"iuran","BPJS","h2o",4.741836e+12,NA
+2021,"iuran","BPJS","h2o",5.05e+12,NA
+2022,"iuran","BPJS","h2o",5.3e+12,NA
+2023,"iuran","BPJS","h2o",5.55e+12,NA
+2024,"iuran","BPJS","h2o",5.85e+12,NA
+2025,"iuran","BPJS","h2o",6.2e+12,NA
+2026,"iuran","BPJS","h2o",NA,5981111314750.58
+2027,"iuran","BPJS","h2o",NA,5981111314750.58
+2028,"iuran","BPJS","h2o",NA,5981111314750.58
+2029,"iuran","BPJS","h2o",NA,5981111314750.58
+2030,"iuran","BPJS","h2o",NA,5981111314750.58

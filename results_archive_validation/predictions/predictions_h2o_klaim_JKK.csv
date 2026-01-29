@@ -1,0 +1,3 @@
+"dataset","target","model","year","actual","predicted","timestamp"
+"klaim","JKK","h2o_automl",2024,1.85e+12,1544615341999,2026-01-28 19:44:37.849924
+"klaim","JKK","h2o_automl",2025,2e+12,1544615341999,2026-01-28 19:44:37.849924

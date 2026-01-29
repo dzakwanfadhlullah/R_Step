@@ -1,0 +1,17 @@
+"year","dataset","target","model","actual","predicted"
+2015,"iuran","BPJS","lstm",3140403518972,NA
+2016,"iuran","BPJS","lstm",4680064727673,NA
+2017,"iuran","BPJS","lstm",4.755082e+12,NA
+2018,"iuran","BPJS","lstm",4608412560228,NA
+2019,"iuran","BPJS","lstm",4701083243362,NA
+2020,"iuran","BPJS","lstm",4.741836e+12,NA
+2021,"iuran","BPJS","lstm",5.05e+12,NA
+2022,"iuran","BPJS","lstm",5.3e+12,NA
+2023,"iuran","BPJS","lstm",5.55e+12,NA
+2024,"iuran","BPJS","lstm",5.85e+12,NA
+2025,"iuran","BPJS","lstm",6.2e+12,NA
+2026,"iuran","BPJS","lstm",NA,6548050925299.13
+2027,"iuran","BPJS","lstm",NA,6789032488841.86
+2028,"iuran","BPJS","lstm",NA,7015299656285.25
+2029,"iuran","BPJS","lstm",NA,7206545226091.9
+2030,"iuran","BPJS","lstm",NA,7355653270643.68

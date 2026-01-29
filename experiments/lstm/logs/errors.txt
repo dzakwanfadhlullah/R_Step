@@ -1,0 +1,11 @@
+[2026-01-28 16:29:49.001986] klaim/JHT: LSTM failed: No scaler params found for target: JHT
+[2026-01-28 16:29:59.548148] klaim/JKK: LSTM failed: No scaler params found for target: JKK
+[2026-01-28 16:30:05.738078] klaim/JKM: LSTM failed: No scaler params found for target: JKM
+[2026-01-28 16:30:11.678982] klaim/JP: LSTM failed: No scaler params found for target: JP
+[2026-01-28 16:30:16.220675] klaim/BPJS: LSTM failed: No scaler params found for target: BPJS
+[2026-01-28 16:30:20.442178] iuran/JHT: LSTM failed: No scaler params found for target: JHT
+[2026-01-28 16:30:24.979929] iuran/JKK: LSTM failed: No scaler params found for target: JKK
+[2026-01-28 16:30:30.055836] iuran/JKM: LSTM failed: No scaler params found for target: JKM
+[2026-01-28 16:30:34.325696] iuran/JP: LSTM failed: No scaler params found for target: JP
+[2026-01-28 16:30:38.714184] iuran/BPJS: LSTM failed: No scaler params found for target: BPJS
+[2026-01-28 16:45:03.563871] klaim/JHT: LSTM failed: File 'experiments/lstm/models/lstm_klaim_JHT.keras' already exists (pass overwrite = TRUE to force save).
